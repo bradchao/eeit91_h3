@@ -52,6 +52,14 @@ public class MemberDao {
 		}		
 	}
 
+	public List<Member> getBySQL(String sql) throws Exception {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			return session.createNativeQuery(sql, Member.class).getResultList();
+		}catch(Exception e) {
+			System.out.println(e);
+			throw new Exception();
+		}		
+	}
 	
 	public void delete(Member member) {
 		Transaction transaction = null;
@@ -67,7 +75,20 @@ public class MemberDao {
 		}
 	}
 	
-	
+	public void update(Member member) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			transaction = session.beginTransaction();
+			session.merge(member);
+			transaction.commit();
+		}catch(Exception e) {
+			System.out.println(e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		
+	}
 	
 	
 }
