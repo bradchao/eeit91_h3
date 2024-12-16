@@ -8,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 import tw.brad.model.Member;
+import tw.brad.model.MemberInfo;
 
 public class HibernateUtil {
 	private static StandardServiceRegistry registry;
@@ -20,6 +21,7 @@ public class HibernateUtil {
 				config.configure("hibernate.cfg.xml");
 				
 				config.addAnnotatedClass(Member.class);
+				config.addAnnotatedClass(MemberInfo.class);
 				
 				registry = new StandardServiceRegistryBuilder()
 						.applySettings(config.getProperties())

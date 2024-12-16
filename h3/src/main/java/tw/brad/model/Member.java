@@ -1,10 +1,13 @@
 package tw.brad.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +26,10 @@ public class Member {
 	
 	@Column(name = "name")
 	private String name;
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
+	private MemberInfo memberInfo;
+	
 	
 	public int getId() {
 		return id;
@@ -47,6 +54,13 @@ public class Member {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public MemberInfo getMemberInfo() {
+		return memberInfo;
+	}
+	public void setMemberInfo(MemberInfo memberInfo) {
+		this.memberInfo = memberInfo;
+		memberInfo.setMember(this);
 	}
 	
 	
