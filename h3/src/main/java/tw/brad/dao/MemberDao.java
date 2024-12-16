@@ -1,5 +1,7 @@
 package tw.brad.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -31,6 +33,25 @@ public class MemberDao {
 		}
 	}
 	
+	public List<Member> getAll() throws Exception {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			String hql = "FROM Member";
+			return session.createQuery(hql, Member.class).getResultList();
+		}catch(Exception e) {
+			System.out.println(e);
+			throw new Exception();
+		}		
+	}
+
+	public List<Member> getWhere(String hql) throws Exception {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			return session.createQuery(hql, Member.class).getResultList();
+		}catch(Exception e) {
+			System.out.println(e);
+			throw new Exception();
+		}		
+	}
+
 	
 	public void delete(Member member) {
 		Transaction transaction = null;
